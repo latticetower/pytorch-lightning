@@ -824,7 +824,10 @@ class Trainer(
 
         # clear cache before training
         if self.on_gpu:
-            torch.cuda.empty_cache()
+            print(self.data_parallel_device_ids)
+            for i in self.data_parallel_device_ids:
+                with torch.cuda.device(i):
+                    torch.cuda.empty_cache()
 
         # CORE TRAINING LOOP
         self.train()
